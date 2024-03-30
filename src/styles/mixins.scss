@@ -1,0 +1,38 @@
+// Shadows:
+@mixin light-shadow {
+  box-shadow: rgba(145, 158, 171, 0.2) 0px 2px 1px -1px,
+    rgba(145, 158, 171, 0.14) 0px 1px 1px 0px,
+    rgba(145, 158, 171, 0.12) 0px 1px 3px 0px;
+}
+
+@mixin medium-shadow {
+  box-shadow: rgba(145, 158, 171, 0.2) 0px 3px 5px -1px,
+    rgba(145, 158, 171, 0.14) 0px 6px 10px 0px,
+    rgba(145, 158, 171, 0.12) 0px 1px 18px 0px;
+}
+
+@mixin hard-shadow {
+  box-shadow: rgba(145, 158, 171, 0.2) 0px 6px 7px -4px,
+    rgba(145, 158, 171, 0.14) 0px 11px 15px 1px,
+    rgba(145, 158, 171, 0.12) 0px 4px 20px 3px;
+}
+
+// Positioning:
+@mixin align-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+// Transitions:
+@mixin slow-transition {
+  transition: all ease-in-out 1.5s;
+}
+
+@mixin medium-transition {
+  transition: all ease-in-out 0.75s;
+}
+
+@mixin fast-transition {
+  transition: all ease-in-out 0.25s;
+}
