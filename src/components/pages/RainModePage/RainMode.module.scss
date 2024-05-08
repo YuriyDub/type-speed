@@ -1,0 +1,14 @@
+@import "../../../styles/mixins.scss";
+
+.page {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+
+  .contentWrapper {
+    @include slide-up;
+
+    width: 100%;
+    margin-top: 200px;
+  }
+}

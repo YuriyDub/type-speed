@@ -1,0 +1,61 @@
+* {
+  --max-width: 360px;
+  --max-margin: 40px;
+}
+
+@media (max-width: 480px) {
+  * {
+    --max-width: 360px;
+    --max-margin: 40px;
+  }
+}
+
+@media (min-width: 481px) and (max-width: 767px) {
+  * {
+    --max-width: 481px;
+    --max-margin: 100px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  * {
+    --max-width: 768px;
+    --max-margin: 160px;
+  }
+}
+
+@media (min-width: 1025px) and (max-width: 1280px) {
+  * {
+    --max-width: 1025px;
+    --max-margin: 220px;
+  }
+}
+
+@media (min-width: 1281px) {
+  * {
+    --max-width: 1280px;
+    --max-margin: 300px;
+  }
+}
+
+body[data-theme="light"] {
+  --color-primary: #f4f4f2;
+  --color-secondary: #e8e8e8;
+  --color-background: #fff;
+  --color-light-text: #97a1ae;
+  --color-text: #495464;
+  --color-highlight: #77b0ff;
+  --color-correct: #a3ff71;
+  --color-incorrect: #fa9494;
+}
+
+body[data-theme="dark"] {
+  --color-primary: #fff;
+  --color-secondary: #fff;
+  --color-background: #ffffff;
+  --color-light-text: #97a1ae;
+  --color-text: #495464;
+  --color-highlight: #77b0ff;
+  --color-correct: #b8fa94;
+  --color-incorrect: #fa9494;
+}

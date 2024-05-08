@@ -1,0 +1,21 @@
+@import "../../../styles/mixins.scss";
+
+.page {
+  display: flex;
+  justify-content: center;
+
+  .contentWrapper {
+    margin-top: 100px;
+
+    .modesTitle {
+      @include slide-right;
+    }
+
+    .modes {
+      margin-top: 50px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+  }
+}

@@ -1,17 +1,18 @@
+@import "../../../styles/mixins.scss";
+
 .button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  @include align-center;
+  @include light-shadow;
   background-color: var(--color-primary);
-  border: 2px solid var(--color-accent);
-  box-shadow: 0 0 10px var(--color-accent), inset 0 0 0 var(--color-accent);
-  border-radius: 100px;
+  border-radius: 8px;
   box-sizing: border-box;
   color: var(--color-text);
   cursor: pointer;
   user-select: none;
   transition: all 0.1s ease-in-out;
   filter: brightness(1);
+  text-wrap: nowrap;
+  gap: 4px;
 
   &:hover {
     filter: brightness(0.97);
@@ -21,6 +22,18 @@
     box-shadow: 0 0 0 var(--color-accent), inset 0 0 5px var(--color-accent);
     filter: brightness(0.95);
   }
+
+  .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    max-height: 20px;
+    max-width: 20px;
+
+    :first-child {
+      width: 100%;
+    }
+  }
 }
 
 .small {
@@ -29,6 +42,11 @@
   padding: 0 12px 0 12px;
   font-weight: 500;
   text-transform: lowercase;
+
+  .icon {
+    max-height: 16px;
+    max-width: 16px;
+  }
 }
 
 .medium {
@@ -37,6 +55,11 @@
   padding: 0 15px 0 15px;
   font-weight: 500;
   text-transform: capitalize;
+
+  .icon {
+    max-height: 20px;
+    max-width: 20px;
+  }
 }
 
 .large {
@@ -45,6 +68,11 @@
   padding: 0 20px 0 20px;
   font-weight: 500;
   text-transform: uppercase;
+
+  .icon {
+    max-height: 24px;
+    max-width: 24px;
+  }
 }
 
 .outlined {
@@ -63,11 +91,11 @@
 }
 
 .left-squared {
-  border-radius: 0 100px 100px 0;
+  border-radius: 0 8px 8px 0;
 }
 
 .right-squared {
-  border-radius: 100px 0 0 100px;
+  border-radius: 8px 0 0 8px;
 }
 
 .disabled {

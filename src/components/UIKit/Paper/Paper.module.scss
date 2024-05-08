@@ -1,0 +1,8 @@
+@import "../../../styles/mixins.scss";
+
+.paper {
+  @include medium-shadow;
+  background-color: var(--color-background);
+  border-radius: 8px;
+	
+}

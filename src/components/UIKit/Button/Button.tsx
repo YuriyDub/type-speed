@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { MouseEventHandler, ReactNode } from "react";
 import styles from "./Button.module.scss";
 
 type ButtonPropsType = {
@@ -9,6 +9,7 @@ type ButtonPropsType = {
   startIcon?: ReactNode;
   endIcon?: ReactNode;
   disabled?: boolean;
+  onClick?: MouseEventHandler;
 };
 
 export const Button = ({
@@ -18,17 +19,19 @@ export const Button = ({
   endIcon,
   variant = "primary",
   shape = "rounded",
-  disabled,
+  disabled = false,
+  onClick,
 }: ButtonPropsType): ReactNode => {
   return (
     <button
-      className={`${styles.button} ${styles[size]} ${
-        variant ? styles[variant] : ""
-      } ${shape ? styles[shape] : ""} ${disabled ? styles.disabled : ""}`}
+      onClick={onClick}
+      className={`${styles.button} ${styles[size]} ${styles[variant] ?? ""} ${
+        styles[shape] ?? ""
+      } ${disabled ? styles.disabled : ""}`}
     >
-      {startIcon}
+      <div className={styles.icon}>{startIcon}</div>
       {text}
-      {endIcon}
+      <div className={styles.icon}>{endIcon}</div>
     </button>
   );
 };

@@ -1,0 +1,56 @@
+@import "../../../../styles/mixins.scss";
+
+.cardWrapper {
+  width: fit-content;
+  @include slide-right;
+
+  .card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    cursor: pointer;
+    max-width: 280px;
+    transition: all 0.4s ease-in-out;
+
+    .header {
+      background-color: var(--color-background);
+      bottom: 18px;
+      position: absolute;
+      width: 100%;
+      transition: all 0.4s ease-in-out;
+
+      .title {
+        text-align: center;
+        text-transform: uppercase;
+      }
+    }
+
+    .description {
+      position: absolute;
+      padding: 14px;
+      opacity: 0;
+      transition: opacity 0.4s ease-in-out;
+    }
+
+    .image {
+      width: 100%;
+      border-radius: 8px;
+      transition: opacity 0.4s ease-in-out;
+    }
+  }
+
+  &:hover {
+    .card {
+      .header {
+        background-color: rgba($color: var(--color-background), $alpha: 0);
+      }
+      .image {
+        opacity: 0.1;
+      }
+      .description {
+        opacity: 1;
+      }
+    }
+  }
+}

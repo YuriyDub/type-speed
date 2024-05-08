@@ -1,3 +1,5 @@
+@import "./animations.scss";
+
 // Shadows:
 @mixin light-shadow {
   box-shadow: rgba(145, 158, 171, 0.2) 0px 2px 1px -1px,
@@ -24,6 +26,18 @@
   justify-content: center;
 }
 
+@mixin align-left {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+@mixin align-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
 // Transitions:
 @mixin slow-transition {
   transition: all ease-in-out 1.5s;
@@ -35,4 +49,53 @@
 
 @mixin fast-transition {
   transition: all ease-in-out 0.25s;
+}
+
+// Animations
+@mixin slide-down {
+  transform-origin: top;
+  animation: appear 0.5s ease-in-out;
+}
+
+@mixin slide-up {
+  transform-origin: bottom;
+  animation: appear 0.5s ease-in-out;
+}
+
+@mixin slide-left {
+  transform-origin: right;
+  animation: appear 0.5s ease-in-out;
+}
+
+@mixin slide-right {
+  transform-origin: left;
+  animation: appear 0.5s ease-in-out;
+}
+
+@mixin slide-right-down {
+  transform-origin: left top;
+  animation: appear 0.5s ease-in-out;
+}
+
+@mixin slide-left-down {
+  transform-origin: right top;
+  animation: appear 0.5s ease-in-out;
+}
+
+@mixin slide-left-top {
+  transform-origin: right bottom;
+  animation: appear 0.5s ease-in-out;
+}
+
+@mixin slide-right-top {
+  transform-origin: left bottom;
+  animation: appear 0.5s ease-in-out;
+}
+
+@mixin shake-slide-right {
+  animation: shake-appear 0.5s ease-in-out;
+}
+
+@mixin breathe {
+  animation: breathe infinite ease-in-out 2s;
 }

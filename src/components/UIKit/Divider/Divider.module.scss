@@ -1,0 +1,11 @@
+.horizontal {
+  border-top: 1px solid var(--color-primary);
+  height: 1px;
+  width: 100%;
+}
+
+.vertical {
+  border-left: 1px solid var(--color-primary);
+  width: 1px;
+  height: 100%;
+}

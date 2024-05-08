@@ -1,0 +1,11 @@
+@import "../../styles/mixins.scss";
+
+.logoWrap {
+  @include align-center;
+  padding: 0px 20px;
+  gap: 6px;
+
+  svg {
+    font-size: 26px;
+  }
+}

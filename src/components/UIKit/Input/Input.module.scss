@@ -1,0 +1,74 @@
+@import "../../../styles/variables.scss";
+@import "../../../styles/mixins.scss";
+
+.input {
+  display: flex;
+  flex-direction: column;
+
+  .header {
+    display: flex;
+    justify-content: space-between;
+
+    .label {
+      position: relative;
+      font-size: small;
+      margin-left: 6px;
+
+      &::before {
+        position: absolute;
+        content: "*";
+        left: -7px;
+        top: -4px;
+        color: var(--color-incorrect);
+      }
+    }
+
+    .limit {
+      font-size: small;
+      margin-right: 6px;
+      color: var(--color-light-text);
+      font-style: italic;
+    }
+  }
+  .inputField {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 200px;
+    background-color: var(--color-secondary);
+    height: 40px;
+    border-radius: 4px;
+    border: none;
+    line-height: 30px;
+    padding: 0px 15px;
+    font-size: 14px;
+
+    &::placeholder {
+      color: var(--color-light-text);
+      font-style: italic;
+    }
+
+    &:focus {
+      box-shadow: 0px 0px 0px 1px var(--color-highlight);
+    }
+
+    &Error {
+      box-shadow: 0px 0px 0px 1px var(--color-incorrect);
+    }
+
+    &Success {
+      box-shadow: 0px 0px 0px 1px var(--color-correct);
+    }
+  }
+
+  .errorMessage {
+    margin-left: 6px;
+    font-size: 12px;
+    color: var(--color-incorrect);
+  }
+  .successMessage {
+    margin-left: 6px;
+    font-size: 12px;
+    color: var(--color-correct);
+  }
+}

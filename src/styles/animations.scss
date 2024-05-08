@@ -1,0 +1,47 @@
+@keyframes appear {
+  0% {
+    transform: scale(0%);
+    opacity: 0;
+  }
+  50% {
+    opacity: 0.2;
+  }
+  100% {
+    transform: scale(100%);
+    opacity: 1;
+  }
+}
+
+@keyframes shake-appear {
+  0% {
+    transform: scale(0%) rotate(-15deg);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(100%) rotate(15deg);
+    opacity: 1;
+  }
+
+  75% {
+    transform: scale(100%) rotate(-15deg);
+    filter: brightness(1.5);
+  }
+
+  100% {
+    transform: scale(100%) rotate(0deg);
+  }
+}
+
+@keyframes breathe {
+  0% {
+    transform: scale(100%) rotate(15deg);
+  }
+
+  50% {
+    transform: scale(130%) rotate(-15deg);
+  }
+
+  100% {
+    transform: scale(100%) rotate(15deg);
+  }
+}
