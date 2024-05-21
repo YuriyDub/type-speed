@@ -13,9 +13,25 @@
   .navigation {
     @include slide-down;
     @include align-center;
+    display: none;
     flex-grow: 2;
     gap: 10px;
     height: 100%;
+
+    @media (min-width: 900px) {
+      display: flex;
+    }
+  }
+
+  .rightSide {
+    @include slide-left-down;
+    @include align-right;
+    display: none;
+    flex-grow: 1;
+
+    @media (min-width: 900px) {
+      display: flex;
+    }
   }
 
   .leftSide {
@@ -24,9 +40,12 @@
     flex-grow: 1;
   }
 
-  .rightSide {
+  .burgerButton {
     @include slide-left-down;
-    @include align-right;
-    flex-grow: 1;
+    display: flex;
+
+    @media (min-width: 900px) {
+      display: none;
+    }
   }
 }

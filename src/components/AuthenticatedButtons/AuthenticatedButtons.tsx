@@ -1,5 +1,5 @@
 import { ReactNode } from "react";
-import { MdAccountCircle, MdSettings } from "react-icons/md";
+import { MdAccountCircle } from "react-icons/md";
 import { NavLink, useNavigate } from "react-router-dom";
 import { IconButton } from "../UIKit/IconButton/IconButton";
 import { signOut } from "firebase/auth";
@@ -26,7 +26,6 @@ export const AuthenticatedButtons = (): ReactNode => {
       <NavLink to="/account">
         <IconButton icon={<MdAccountCircle />} />
       </NavLink>
-      <IconButton icon={<MdSettings />} />
       <Button text="Log out" onClick={handleLogOut} />
     </div>
   );

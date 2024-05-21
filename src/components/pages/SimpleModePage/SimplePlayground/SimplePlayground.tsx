@@ -55,6 +55,7 @@ type SimplePlaygroundPropsType = {
   gameState: GameState;
   onStart: () => void;
   onRestart: () => void;
+  isLoading?: boolean;
 };
 
 export const SimplePlayGround = ({
@@ -66,6 +67,7 @@ export const SimplePlayGround = ({
   gameState,
   onStart,
   onRestart,
+  isLoading,
 }: SimplePlaygroundPropsType) => {
   const {
     secondsLeft,
@@ -79,6 +81,10 @@ export const SimplePlayGround = ({
 
   const symbols = Array.from(sentence);
   const typedSymbols = Array.from(value);
+
+  const graphBaseColor = getComputedStyle(document.body)
+    .getPropertyValue("--color-light-text")
+    .trim();
 
   const labels =
     gameState === GameState.Finished
@@ -95,7 +101,7 @@ export const SimplePlayGround = ({
       {
         type: "scatter" as const,
         label: "Mistakes",
-        backgroundColor: "rgb(255, 99, 132)",
+        backgroundColor: graphBaseColor,
         radius: 5,
         data: labels.map((time) => {
           const startPoint = stats.errors.reduce(
@@ -119,7 +125,7 @@ export const SimplePlayGround = ({
       {
         type: "line" as const,
         label: "Typing speed",
-        borderColor: "rgb(75, 192, 192)",
+        borderColor: graphBaseColor,
         borderWidth: 2,
         radius: 5,
         cubicInterpolationMode: "monotone",
@@ -166,93 +172,116 @@ export const SimplePlayGround = ({
   };
 
   return (
-    <>
-      <Paper>
-        <div className={styles.playground}>
-          {!timerIsFinished && gameState === GameState.BeforeStart ? (
-            <div
-              onClick={handleStartTyping}
-              className={`${styles.timer} ${
-                isStarted ? styles.timerActive : ""
-              }`}
-            >
-              {secondsLeft}
+    <Paper>
+      <div className={styles.playground}>
+        {!isLoading ? (
+          <>
+            {!timerIsFinished && gameState === GameState.BeforeStart ? (
+              <div
+                onClick={handleStartTyping}
+                className={`${styles.timer} ${
+                  isStarted ? styles.timerActive : ""
+                }`}
+              >
+                {secondsLeft}
+              </div>
+            ) : (
+              <div className={styles.top}>
+                <div className={styles.sentenceWrapper}>
+                  <div className={styles.typedSentence}>
+                    {typedSymbols.map((symbol, index) => (
+                      <div
+                        key={index}
+                        className={`${styles.symbol} ${
+                          symbol === symbols[index]
+                            ? styles.symbolCorrect
+                            : styles.symbolIncorrect
+                        }`}
+                      >
+                        {symbol}
+                      </div>
+                    ))}
+                  </div>
+                  <div className={styles.sentence}>
+                    {symbols.map((symbol, index) => (
+                      <div key={index} className={styles.symbol}>
+                        {symbol}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <input
+                  ref={inputRef}
+                  onBlur={handleInputBlur}
+                  onChange={onChange}
+                  value={value}
+                />
+                {gameState === GameState.Finished ? (
+                  <div className={styles.stats}>
+                    <Chart
+                      className={styles.graph}
+                      type="line"
+                      //@ts-expect-error chart js data-type coincidence
+                      data={data}
+                      options={{
+                        maintainAspectRatio: false,
+                        scales: {
+                          y: {
+                            grid: {
+                              color: graphBaseColor,
+                            },
+                            ticks: {
+                              color: graphBaseColor,
+                            },
+                          },
+                          x: {
+                            grid: {
+                              color: graphBaseColor,
+                            },
+                            ticks: {
+                              color: graphBaseColor,
+                            },
+                          },
+                        },
+                      }}
+                    />
+                  </div>
+                ) : null}
+              </div>
+            )}
+          </>
+        ) : null}
+      </div>
+      <Divider />
+      <div className={styles.navigation}>
+        {gameState === GameState.Finished ? (
+          <>
+            <div className={styles.restartButton}>
+              <Button text="Restart" onClick={handleRestartTyping} />
             </div>
-          ) : (
-            <div className={styles.top}>
-              <div className={styles.sentenceWrapper}>
-                <div className={styles.typedSentence}>
-                  {typedSymbols.map((symbol, index) => (
-                    <div
-                      key={index}
-                      className={`${styles.symbol} ${
-                        symbol === symbols[index]
-                          ? styles.symbolCorrect
-                          : styles.symbolIncorrect
-                      }`}
-                    >
-                      {symbol}
-                    </div>
-                  ))}
+            <div className={styles.numericStats}>
+              <>
+                <div>
+                  <MdErrorOutline />
+                  {stats.errors.length}
                 </div>
-                <div className={styles.sentence}>
-                  {symbols.map((symbol, index) => (
-                    <div key={index} className={styles.symbol}>
-                      {symbol}
-                    </div>
-                  ))}
+                <div>
+                  <MdOutlineTroubleshoot />
+                  {(stats.accuracy * 100).toFixed(1)}%
                 </div>
-              </div>
-              <input
-                ref={inputRef}
-                onBlur={handleInputBlur}
-                onChange={onChange}
-                value={value}
-              />
-              {gameState === GameState.Finished ? (
-                <div className={styles.stats}>
-                  <Chart
-                    className={styles.graph}
-                    type="line"
-                    data={data}
-                    options={{ maintainAspectRatio: false }}
-                  />
+                <div>
+                  <MdOutlineAccessTime />
+                  {(stats.time / 1000).toFixed(1)}s
                 </div>
-              ) : null}
+                <div>
+                  <MdSpeed />
+                  {stats.speed.toFixed(1)}
+                </div>
+              </>
             </div>
-          )}
-        </div>
-        <Divider />
-        <div className={styles.navigation}>
-          {gameState === GameState.Finished ? (
-            <>
-              <div className={styles.restartButton}>
-                <Button text="Restart" onClick={handleRestartTyping} />
-              </div>
-              <div className={styles.numericStats}>
-                <>
-                  <div>
-                    <MdErrorOutline />
-                    {stats.errors.length}
-                  </div>
-                  <div>
-                    <MdOutlineTroubleshoot />
-                    {(stats.accuracy * 100).toFixed(1)}%
-                  </div>
-                  <div>
-                    <MdOutlineAccessTime />
-                    {(stats.time / 1000).toFixed(1)}s
-                  </div>
-                  <div>
-                    <MdSpeed />
-                    {stats.speed.toFixed(1)}
-                  </div>
-                </>
-              </div>
-            </>
-          ) : null}
-        </div>
-      </Paper>
-    </>
+          </>
+        ) : null}
+      </div>
+    </Paper>
   );
 };

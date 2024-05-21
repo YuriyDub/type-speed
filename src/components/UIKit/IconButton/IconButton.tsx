@@ -6,6 +6,7 @@ type IconButtonPropsType = {
   variant?: "primary" | "outlined";
   icon?: ReactNode;
   disabled?: boolean;
+  onClick?: () => void;
 };
 
 export const IconButton = ({
@@ -13,9 +14,11 @@ export const IconButton = ({
   icon,
   variant = "primary",
   disabled = false,
+  onClick,
 }: IconButtonPropsType): ReactNode => {
   return (
     <button
+      onClick={onClick}
       className={`${styles.button} ${styles[size]} ${styles[variant] ?? ""} ${
         disabled ? styles.disabled : ""
       }`}

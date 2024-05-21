@@ -1,4 +1,8 @@
-import { createUserWithEmailAndPassword, signInWithPopup } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  signInWithPopup,
+  updateProfile,
+} from "firebase/auth";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
 import { auth, provider } from "../../../firebase";
 import { FirebaseError } from "firebase/app";
@@ -7,8 +11,10 @@ import { Button } from "../../UIKit/Button/Button";
 import { Paper } from "../../UIKit/Paper/Paper";
 import { Input } from "../../UIKit/Input";
 import styles from "./SignUpPage.module.scss";
+import { addUserToFirestore } from "../../../api/auth";
 
 export type SignUpFormType = {
+  username: string;
   email: string;
   password: string;
 };
@@ -16,6 +22,7 @@ export type SignUpFormType = {
 export const SignUpPage = () => {
   const { control, reset, handleSubmit, setError } = useForm<SignUpFormType>({
     defaultValues: {
+      username: "",
       password: "",
       email: "",
     },
@@ -25,9 +32,23 @@ export const SignUpPage = () => {
   const handleNativeAuth: SubmitHandler<SignUpFormType> = async ({
     email,
     password,
+    username,
   }) => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+
+      await updateProfile(userCredential.user, {
+        displayName: username,
+      });
+
+      if (userCredential) {
+        addUserToFirestore({ ...userCredential.user });
+      }
+      reset();
     } catch (error) {
       if (error instanceof FirebaseError) {
         const errorMessage = error.message;
@@ -54,18 +75,28 @@ export const SignUpPage = () => {
             });
             break;
           default:
-            console.error(errorMessage);
+            setError("password", {
+              message: "Try a new one",
+            });
+            setError("email", {
+              message: "Try a new one",
+            });
+            console.log(errorMessage);
             break;
         }
       }
     }
-    reset();
   };
 
-  const handleGoogleAuth = () => {
-    signInWithPopup(auth, provider).catch((error) => {
-      console.error(error);
-    });
+  const handleGoogleAuth = async () => {
+    const userCredential = await signInWithPopup(auth, provider).catch(
+      (error) => {
+        console.error(error);
+      }
+    );
+    if (userCredential) {
+      addUserToFirestore(userCredential.user);
+    }
   };
 
   return (
@@ -75,6 +106,29 @@ export const SignUpPage = () => {
           <Paper className={styles.signUpModal}>
             <h4 className={styles.title}>Sign up</h4>
             <div className={styles.nativeAuth}>
+              <Controller
+                name="username"
+                control={control}
+                rules={{
+                  required: "username is required",
+                  min: {
+                    value: 5,
+                    message: "length of the username must exceed 5 characters",
+                  },
+                }}
+                render={({
+                  field: { value, onChange },
+                  fieldState: { error },
+                }) => (
+                  <Input
+                    label="Username"
+                    value={value}
+                    onChange={onChange}
+                    placeholder="username"
+                    errorMessage={error?.message}
+                  />
+                )}
+              />
               <Controller
                 name="email"
                 control={control}
@@ -123,7 +177,7 @@ export const SignUpPage = () => {
                   />
                 )}
               />
-              <Button text="Log in" onClick={handleSubmit(handleNativeAuth)} />
+              <Button text="Sign up" onClick={handleSubmit(handleNativeAuth)} />
             </div>
             <Button
               text="Log in with Google"

@@ -6,9 +6,11 @@
 
   .contentWrapper {
     margin-top: 100px;
+    margin-bottom: 100px;
 
     .modesTitle {
       @include slide-right;
+      color: var(--color-text);
     }
 
     .modes {

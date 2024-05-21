@@ -10,15 +10,35 @@
 }
 
 body {
+  position: relative;
   margin: 0;
   background-color: var(--color-background);
+
+  &::-webkit-scrollbar {
+    width: 12px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--color-background);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb:hover {
+    background: var(--color-secondary);
+  }
 }
 
 a:link {
   color: black;
+  text-decoration: none !important;
 }
 a:visited {
   color: black;
+  text-decoration: none !important;
 }
 
 input {

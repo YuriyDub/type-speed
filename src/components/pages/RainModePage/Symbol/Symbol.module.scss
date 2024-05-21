@@ -1,0 +1,42 @@
+@import "../../../../styles/variables.scss";
+@import "../../../../styles/mixins.scss";
+
+.symbol {
+  font-size: 28px;
+  color: var(--color-text);
+  font-family: "Cutive Mono", monospace;
+  font-weight: 600;
+  border-radius: 30px;
+  padding: 4px;
+  white-space: pre-wrap;
+  animation: fall 2s ease-in infinite;
+  background-color: var(--color-primary);
+  width: min-content;
+  position: absolute;
+  transition: all 0.2s ease-in-out;
+
+  &Correct {
+    background-color: var(--color-correct);
+    opacity: 0;
+    transform: scale(3);
+  }
+
+  &Incorrect {
+    background-color: var(--color-incorrect);
+    opacity: 0;
+    transform: scale(3);
+  }
+
+  @media (max-width: 600px) {
+    font-size: 20px;
+  }
+}
+
+@keyframes fall {
+  0% {
+    top: -10%;
+  }
+  100% {
+    top: 110%;
+  }
+}

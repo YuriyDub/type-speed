@@ -1,4 +1,3 @@
-import { Component } from "react";
 import { LogInPage } from "./components/pages/LogInPage";
 import { ModesPage } from "./components/pages/ModesPage";
 import { SignUpPage } from "./components/pages/SignUpPage/SignUpPage";
@@ -7,10 +6,14 @@ import {
   ACCOUNT_ROUTE,
   LOGIN_ROUTE,
   MODES_ROUTE,
+  RAIN_MODE_ROUTE,
+  RATINGS_ROUTE,
   SIGNUP_ROUTE,
   SIMPLE_MODE_ROUTE,
 } from "./utils/constants/routes";
 import { AccountPage } from "./components/pages/AccountPage/AccountPage";
+import { RainModePage } from "./components/pages/RainModePage";
+import { RatingsPage } from "./components/pages/RatingsPage";
 
 export const publicRoutes = [
   {
@@ -20,6 +23,11 @@ export const publicRoutes = [
   {
     path: SIGNUP_ROUTE,
     Component: SignUpPage,
+  },
+
+  {
+    path: RATINGS_ROUTE,
+    Component: RatingsPage,
   },
 ];
 
@@ -33,7 +41,15 @@ export const privateRoutes = [
     Component: SimpleModePage,
   },
   {
+    path: RAIN_MODE_ROUTE,
+    Component: RainModePage,
+  },
+  {
     path: ACCOUNT_ROUTE,
     Component: AccountPage,
+  },
+  {
+    path: RATINGS_ROUTE,
+    Component: RatingsPage,
   },
 ];

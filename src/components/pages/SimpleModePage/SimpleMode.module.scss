@@ -10,5 +10,17 @@
 
     width: 100%;
     margin-top: 200px;
+
+    h2 {
+      text-align: center;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      color: var(--color-light-text);
+      user-select: none;
+    }
+
+    @media (max-width: 900px) {
+      margin-top: 80px;
+    }
   }
 }

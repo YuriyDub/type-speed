@@ -6,15 +6,17 @@ type ModeCard = {
   title: string;
   description: string;
   imageUrl: string;
+  onClick: () => void;
 };
 
 export const ModeCard = ({
   title,
   description,
   imageUrl,
+  onClick,
 }: ModeCard): ReactNode => {
   return (
-    <div className={styles.cardWrapper}>
+    <div onClick={onClick} className={styles.cardWrapper}>
       <Paper className={styles.card}>
         <div className={styles.header}>
           <h5 className={styles.title}>{title}</h5>

@@ -4,4 +4,13 @@
   @include align-center;
   padding: 0px 20px;
   gap: 6px;
+
+  @media (max-width: 900px) {
+    max-width: 300px;
+    width: 100%;
+
+    :nth-child(2) {
+      width: 100%;
+    }
+  }
 }

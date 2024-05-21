@@ -48,11 +48,6 @@ const simpleModeSlice = createSlice({
   name: "simpleMode",
   initialState: initialState,
   reducers: {
-    addError: (state, action: PayloadAction<SimpleModeErrorType>) => {
-      state.stats.errors.push(action.payload);
-      const accuracy = state.sentence.length / state.stats.errors.length;
-      state.stats.accuracy = accuracy < 0 ? 0 : accuracy;
-    },
     startTyping: (state, action: PayloadAction<number>) => {
       state.startTime = action.payload;
       state.state = GameState.Running;

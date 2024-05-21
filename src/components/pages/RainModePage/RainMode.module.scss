@@ -9,6 +9,18 @@
     @include slide-up;
 
     width: 100%;
-    margin-top: 200px;
+    margin-top: 100px;
+
+    h2 {
+      text-align: center;
+      margin-bottom: 10px;
+      text-transform: uppercase;
+			color: var(--color-light-text);
+      user-select: none;
+    }
+
+    @media (max-width: 900px) {
+      margin-top: 50px;
+    }
   }
 }

@@ -6,6 +6,7 @@
 
   .contentWrapper {
     margin-top: 100px;
+    margin-bottom: 100px;
 
     .hero {
       display: flex;
@@ -13,10 +14,12 @@
       gap: 10px;
       .title {
         margin-bottom: 20px;
+        color: var(--color-text);
       }
       .detailsList {
         li {
           font-size: large;
+          color: var(--color-light-text);
         }
       }
       .banner {

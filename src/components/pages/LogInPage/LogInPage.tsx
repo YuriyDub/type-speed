@@ -1,5 +1,6 @@
 import { signInWithEmailAndPassword, signInWithPopup } from "firebase/auth";
 import { Controller, SubmitHandler, useForm } from "react-hook-form";
+import { addUserToFirestore } from "../../../api/auth";
 import { auth, provider } from "../../../firebase";
 import { FirebaseError } from "firebase/app";
 import { Container } from "../../UIKit/Container";
@@ -27,7 +28,15 @@ export const LogInPage = () => {
     password,
   }) => {
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      if (userCredential) {
+        addUserToFirestore(userCredential.user);
+      }
+      reset();
     } catch (error) {
       if (error instanceof FirebaseError) {
         const errorMessage = error.message;
@@ -54,18 +63,29 @@ export const LogInPage = () => {
             });
             break;
           default:
-            console.error(errorMessage);
+            setError("password", {
+              message: "Try a new one",
+            });
+            setError("email", {
+              message: "Try a new one",
+            });
+            console.log(errorMessage);
             break;
         }
       }
     }
-    reset();
   };
 
-  const handleGoogleAuth = () => {
-    signInWithPopup(auth, provider).catch((error) => {
-      console.error(error);
-    });
+  const handleGoogleAuth = async () => {
+    const userCredential = await signInWithPopup(auth, provider).catch(
+      (error) => {
+        console.error(error);
+      }
+    );
+
+    if (userCredential) {
+      addUserToFirestore(userCredential.user);
+    }
   };
 
   return (

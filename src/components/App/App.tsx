@@ -7,7 +7,6 @@ import { AuthContext } from "../AuthProvider";
 
 export const App = () => {
   const isAuth = useContext(AuthContext);
-  console.log(isAuth);
   return (
     <BaseLayout>
       <Routes>

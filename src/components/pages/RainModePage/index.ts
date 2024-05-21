@@ -1,3 +1,3 @@
-import { SimpleModePage } from "./RainModePage";
+import { RainModePage } from "./RainModePage";
 
-export { SimpleModePage };
+export { RainModePage };

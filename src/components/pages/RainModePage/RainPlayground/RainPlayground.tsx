@@ -1,12 +1,10 @@
-import { ChangeEvent, useEffect, useRef } from "react";
-import {
-  GameState,
-  SimpleModeErrorType,
-} from "../../../../store/slices/simpleModeSlice";
+import { KeyboardEvent, useEffect, useRef } from "react";
+import { GameState } from "../../../../store/slices/simpleModeSlice";
 import { Divider } from "../../../UIKit/Divider";
 import { Button } from "../../../UIKit/Button/Button";
 import { Paper } from "../../../UIKit/Paper/Paper";
 import { Chart } from "react-chartjs-2";
+import { Symbol, SymbolPropsType } from "../Symbol";
 import styles from "./RainPlayground.module.scss";
 import {
   Chart as ChartJS,
@@ -27,6 +25,8 @@ import {
   MdSpeed,
 } from "react-icons/md";
 import { useCountDown } from "../../../../hooks";
+import { RainModeErrorType } from "../../../../store/slices/rainModeSlice";
+import { ALLOWED_SYMBOLS } from "../../../../utils/constants/rainMode";
 
 ChartJS.register(
   LinearScale,
@@ -40,12 +40,10 @@ ChartJS.register(
   BarController
 );
 
-type SimplePlaygroundPropsType = {
-  sentence: string;
-  value: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+type RainPlaygroundPropsType = {
+  symbols: string;
   stats: {
-    errors: SimpleModeErrorType[];
+    errors: RainModeErrorType[];
     accuracy: number;
     speed: number;
     progress: number;
@@ -53,20 +51,28 @@ type SimplePlaygroundPropsType = {
   };
   breakPoints: number[];
   gameState: GameState;
+  symbolsCount: number;
+  symbolElements: SymbolPropsType[];
+  onChangeSymbolElements: (symbolsElements: SymbolPropsType[]) => void;
   onStart: () => void;
   onRestart: () => void;
+  onKeyDown: (key: string) => void;
 };
 
-export const StandartPlayGround = ({
-  sentence,
-  value,
-  onChange,
+export const RainPlayGround = ({
+  symbols,
   stats,
   breakPoints,
   gameState,
+  symbolElements,
+  symbolsCount,
+  onChangeSymbolElements,
+  onKeyDown,
   onStart,
   onRestart,
-}: SimplePlaygroundPropsType) => {
+}: RainPlaygroundPropsType) => {
+  const rainWrapperRef = useRef<HTMLDivElement>(null);
+
   const {
     secondsLeft,
     isFinished: timerIsFinished,
@@ -74,10 +80,9 @@ export const StandartPlayGround = ({
     restart,
   } = useCountDown(3);
 
-  const inputRef = useRef<HTMLInputElement>(null);
-
-  const symbols = Array.from(sentence);
-  const typedSymbols = Array.from(value);
+  const graphBaseColor = getComputedStyle(document.body)
+    .getPropertyValue("--color-light-text")
+    .trim();
 
   const labels =
     gameState === GameState.Finished
@@ -94,7 +99,7 @@ export const StandartPlayGround = ({
       {
         type: "scatter" as const,
         label: "Mistakes",
-        backgroundColor: "rgb(255, 99, 132)",
+        backgroundColor: graphBaseColor,
         radius: 5,
         data: labels.map((time) => {
           const startPoint = stats.errors.reduce(
@@ -118,7 +123,7 @@ export const StandartPlayGround = ({
       {
         type: "line" as const,
         label: "Typing speed",
-        borderColor: "rgb(75, 192, 192)",
+        borderColor: graphBaseColor,
         borderWidth: 2,
         radius: 5,
         cubicInterpolationMode: "monotone",
@@ -136,28 +141,49 @@ export const StandartPlayGround = ({
     ],
   };
 
-  // console.log("symbols: ", symbols);
-  // console.log("active: ", isRunning);
-  // console.log("breakPoints: ", breakPoints);
-
   useEffect(() => {
-    if (inputRef.current && gameState !== GameState.Running) {
-      inputRef.current.blur();
+    if (gameState === GameState.Running) {
+      const interval = setInterval(() => {
+        const newPositions = [...symbolElements];
+        if (symbolElements.length < symbolsCount) {
+          newPositions.push({
+            symbol: symbols[Math.floor(Math.random() * symbols.length)],
+            xPos:
+              Math.random() *
+              (rainWrapperRef.current?.clientWidth ?? window.innerWidth),
+            typed: false,
+          });
+          onChangeSymbolElements(newPositions);
+        }
+      }, 300);
+
+      return () => clearInterval(interval);
     }
-  }, [gameState]);
+  }, [symbolElements, gameState]);
 
   useEffect(() => {
     if (timerIsFinished) {
       onStart();
-      handleInputBlur();
     }
   }, [timerIsFinished]);
 
-  const handleInputBlur = () => {
-    if (inputRef.current && gameState !== GameState.Finished) {
-      inputRef.current.focus();
-    }
-  };
+  useEffect(() => {
+    const handleKeyDown: EventListener = (event) => {
+      const keyboardEvent = event as unknown as KeyboardEvent;
+      if (
+        ALLOWED_SYMBOLS.includes(keyboardEvent.key) &&
+        gameState === GameState.Running
+      ) {
+        onKeyDown(keyboardEvent.key);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [gameState]);
 
   const handleStartTyping = () => {
     start();
@@ -165,7 +191,7 @@ export const StandartPlayGround = ({
 
   const handleRestartTyping = () => {
     onRestart();
-    restart(3);
+    restart();
   };
 
   return (
@@ -178,42 +204,45 @@ export const StandartPlayGround = ({
             </div>
           ) : (
             <div className={styles.top}>
-              <div className={styles.sentenceWrapper}>
-                <div className={styles.typedSentence}>
-                  {typedSymbols.map((symbol, index) => (
-                    <div
-                      key={index}
-                      className={`${styles.symbol} ${
-                        symbol === symbols[index]
-                          ? styles.symbolCorrect
-                          : styles.symbolIncorrect
-                      }`}
-                    >
-                      {symbol}
-                    </div>
-                  ))}
-                </div>
-                <div className={styles.sentence}>
-                  {symbols.map((symbol, index) => (
-                    <div key={index} className={styles.symbol}>
-                      {symbol}
-                    </div>
-                  ))}
-                </div>
+              <div ref={rainWrapperRef} className={styles.symbolsRain}>
+                {symbolElements.map((symbol, index) => (
+                  <Symbol
+                    key={index}
+                    symbol={symbol.symbol}
+                    xPos={symbol.xPos}
+                    typed={symbol.typed}
+                  />
+                ))}
               </div>
-              <input
-                ref={inputRef}
-                onBlur={handleInputBlur}
-                onChange={onChange}
-                value={value}
-              />
+
               {gameState === GameState.Finished ? (
                 <div className={styles.stats}>
                   <Chart
                     className={styles.graph}
                     type="line"
+                    //@ts-expect-error chart js data-type coincidence
                     data={data}
-                    options={{ maintainAspectRatio: false }}
+                    options={{
+                      maintainAspectRatio: false,
+                      scales: {
+                        y: {
+                          grid: {
+                            color: graphBaseColor,
+                          },
+                          ticks: {
+                            color: graphBaseColor,
+                          },
+                        },
+                        x: {
+                          grid: {
+                            color: graphBaseColor,
+                          },
+                          ticks: {
+                            color: graphBaseColor,
+                          },
+                        },
+                      },
+                    }}
                   />
                 </div>
               ) : null}
