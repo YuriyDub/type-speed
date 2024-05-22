@@ -86,6 +86,10 @@ export const SimplePlayGround = ({
     .getPropertyValue("--color-light-text")
     .trim();
 
+  const graphErrorColor = getComputedStyle(document.body)
+    .getPropertyValue("--color-incorrect")
+    .trim();
+
   const labels =
     gameState === GameState.Finished
       ? [
@@ -101,7 +105,7 @@ export const SimplePlayGround = ({
       {
         type: "scatter" as const,
         label: "Mistakes",
-        backgroundColor: graphBaseColor,
+        backgroundColor: graphErrorColor,
         radius: 5,
         data: labels.map((time) => {
           const startPoint = stats.errors.reduce(
@@ -243,6 +247,13 @@ export const SimplePlayGround = ({
                             },
                           },
                         },
+                        plugins: {
+                          legend: {
+                            labels: {
+                              color: graphBaseColor,
+                            },
+                          },
+                        },
                       }}
                     />
                   </div>
@@ -275,7 +286,7 @@ export const SimplePlayGround = ({
                 </div>
                 <div>
                   <MdSpeed />
-                  {stats.speed.toFixed(1)}
+                  {stats.speed.toFixed(1)}s/m
                 </div>
               </>
             </div>

@@ -94,13 +94,13 @@ const rainModeSlice = createSlice({
       }
 
       if (state.symbolsElements.every((element) => element.typed)) {
+        const accuracy = 1 - state.stats.errors.length / state.symbolsCount;
         state.endTime = time;
         state.state = GameState.Finished;
         state.stats.time = state.endTime - state.startTime;
         state.stats.speed =
           (state.symbolsElements.length / (state.stats.time / 1000)) * 60;
-        state.stats.accuracy =
-          1 - state.stats.errors.length / state.symbolsCount;
+        state.stats.accuracy = accuracy >= 0 ? accuracy : 0;
       }
     },
     restart: (state) => {
