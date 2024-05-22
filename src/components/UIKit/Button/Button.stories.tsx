@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react";
 import { Button } from "./Button";
-import "../../../index.scss";
+import "../../../styles/index.scss";
+import "../../../styles/variables-for-storybook.scss";
 
 const meta: Meta<typeof Button> = {
   component: Button,
@@ -15,6 +16,7 @@ export const Primary: Story = {
     shape: "rounded",
     text: "Primary Button",
     size: "medium",
+    disabled: false,
   },
 };
 
@@ -24,5 +26,6 @@ export const Outlined: Story = {
     shape: "rounded",
     text: "Outlined Button",
     size: "medium",
+    disabled: false,
   },
 };

@@ -55,6 +55,7 @@ export const AccountPage = () => {
               onClick={resetTheme}
               text="to default"
               startIcon={<MdUndo />}
+              shape="left-squared"
             />
           </Paper>
 
