@@ -1,3 +1,3 @@
-import { StandartPlayGround } from "./RainPlayground";
+import { RainPlayGround } from "./RainPlayground";
 
-export { StandartPlayGround };
+export { RainPlayGround };
