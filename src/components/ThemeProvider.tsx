@@ -66,7 +66,6 @@ export const ThemeProvider = ({ children }: ThemeProviderPropsType) => {
   }, [theme]);
 
   const updateVariable = (variable: string, value: string) => {
-    console.log({ ...theme, [variable]: value });
     setTheme({ ...theme, [variable]: value });
   };
 

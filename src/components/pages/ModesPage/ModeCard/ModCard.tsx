@@ -1,20 +1,20 @@
 import { ReactNode } from "react";
 import { Paper } from "../../../UIKit/Paper/Paper";
-import styles from "./ModeCard.module.scss";
+import styles from "./ModCard.module.scss";
 
-type ModeCard = {
+type ModCardPropsType = {
   title: string;
   description: string;
   imageUrl: string;
   onClick: () => void;
 };
 
-export const ModeCard = ({
+export const ModCard = ({
   title,
   description,
   imageUrl,
   onClick,
-}: ModeCard): ReactNode => {
+}: ModCardPropsType): ReactNode => {
   return (
     <div onClick={onClick} className={styles.cardWrapper}>
       <Paper className={styles.card}>

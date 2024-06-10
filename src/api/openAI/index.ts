@@ -18,6 +18,12 @@ const openAiApi = createApi({
           headers: {
             Authorization: `Bearer ${API_KEY}`,
           },
+          body: JSON.stringify({
+            prompt: "Write a random sentence.",
+            max_tokens: 50,
+            n: 1,
+            stop: ["\n"],
+          }),
         }),
       }
     ),

@@ -81,7 +81,7 @@ export const SignUpPage = () => {
             setError("email", {
               message: "Try a new one",
             });
-            console.log(errorMessage);
+            console.error(errorMessage);
             break;
         }
       }

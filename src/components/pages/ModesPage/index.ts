@@ -1,3 +1,3 @@
-import { ModesPage } from "./ModesPage";
+import { ModsPage } from "./ModsPage";
 
-export { ModesPage };
+export { ModsPage };

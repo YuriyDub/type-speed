@@ -1,5 +1,5 @@
 import { LogInPage } from "./components/pages/LogInPage";
-import { ModesPage } from "./components/pages/ModesPage";
+import { ModsPage } from "./components/pages/ModesPage";
 import { SignUpPage } from "./components/pages/SignUpPage/SignUpPage";
 import { SimpleModePage } from "./components/pages/SimpleModePage";
 import {
@@ -34,7 +34,7 @@ export const publicRoutes = [
 export const privateRoutes = [
   {
     path: MODES_ROUTE,
-    Component: ModesPage,
+    Component: ModsPage,
   },
   {
     path: SIMPLE_MODE_ROUTE,

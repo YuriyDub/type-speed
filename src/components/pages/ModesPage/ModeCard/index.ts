@@ -1,3 +1,3 @@
-import { ModeCard } from "./ModeCard";
+import { ModCard } from "./ModCard";
 
-export { ModeCard };
+export { ModCard };
